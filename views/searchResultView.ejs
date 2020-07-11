@@ -1,0 +1,29 @@
+<html>
+
+<head>
+    <title>Moviena | Search Results</title>
+</head>
+
+<body>
+    <h2>Search Results for <%= query %></h2>
+    <div class='search-results'>
+        <% if (data.total_results > 0) { %>
+            <% data.results.forEach(result => { %>
+                <div class='search-result-body'>
+                    <h3><%= result.title %></h3>
+                    <p>Overview: <%= result.overview %></p>
+                    <p>Release Date: <%= result.release_date %></p>
+                    <p>Ratings: <%= result.vote_average %></p>
+                    <% if (result.poster_path) { %>
+                        <img src='<%= baseimgurl + result.poster_path %>' alt='<%= result.title %> Poster'>
+                    <% } %>
+                </div>
+            <% }) %>
+        <% } else { %> 
+            <p>No Results Found</p>
+        <% } %>
+    </div>
+    
+</body>
+
+</html>

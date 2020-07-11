@@ -1,0 +1,19 @@
+<html>
+
+<head>
+    <title>Moviena | Search</title>
+</head>
+
+<body>
+    <form method="POST" action='/search/results'>
+        <input type='text' id='query' name='query' placeholder='Search Movie' autocomplete="on">
+        <input type='submit' name='submit' value='Search'><br>
+        <label>Search By: </label>
+        <input type='radio' id='byMovie' name='searchBy' value='byMovie' checked>
+        <label for='byMovie'>Movie</label>
+        <input type='radio' id='byPerson' name='searchBy' value='byPerson'>
+        <label for='byPerson'>Person</label>
+    </form>
+</body>
+
+</html>
