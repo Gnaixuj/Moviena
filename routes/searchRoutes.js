@@ -7,4 +7,6 @@ router.get('/', searchController.search);
 
 router.post('/results', searchController.searchItem);
 
+router.get('/:id', searchController.getMovieDetails);
+
 module.exports = router;

@@ -1,0 +1,19 @@
+<html>
+
+<head>
+    <title>Moviena | <%= data.title %></title>
+</head>
+
+<body>
+    <% if (data) { %>
+        <% if (data.backdrop_path) { %>
+            <img src="<%= data.backdrop_path %>" height="700" width="1250">
+        <% } %>
+        <h1><%= data.title %></h1>
+        <p><%= data.release_date %></p>
+        <p><%= data.tagline.toUpperCase() %></p>
+        <p><%= data.overview %></p>
+    <% } %>
+</body>
+
+</html>

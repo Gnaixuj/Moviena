@@ -1,13 +1,34 @@
 const axios = require('axios');
 const tmdb = require('../api/tmdb');
 
+const getMovieDetails = async (req, res) => {
+    const id = req.params.id;
+    const apiurl = tmdb.getDetails(id);
+    const options = {
+        method: 'GET',
+        url: apiurl
+    };
+    try {
+        var result = await axios(options);
+        if (result.data.backdrop_path) {
+            result.data.backdrop_path = tmdb.baseimgurl() + result.data.backdrop_path;
+        }
+        if (result.data.poster_path) {
+            result.data.poster_path = tmdb.baseimgurl() + result.data.poster_path;
+        }
+        res.render('movieDetailsView', { data: result.data });
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 const search = (req, res) => {
     res.render('searchView');
 }
 
 const searchItem = async (req, res) => {
     let apiurl, results;
-	const baseimgurl = tmdb.baseimgurl('w500');
+	const baseimgurl = tmdb.baseimgurl();
     var options = {
         method: 'GET'
     };
@@ -17,7 +38,22 @@ const searchItem = async (req, res) => {
             apiurl = tmdb.searchMovies + query;
             options.url = apiurl;
             results = await axios(options);
-			res.render('searchResultView', { query: req.body.query, data: results.data, baseimgurl });
+            var output = {
+                page: results.data.page,
+                total_results: results.data.total_results,
+                total_pages: results.data.total_pages,
+                data: []
+            };
+            results.data.results.forEach(movie => {
+                output.data.push({
+                    id: movie.id,
+                    title: movie.title,
+                    img: movie.poster_path ? baseimgurl + movie.poster_path : null,
+                    year: movie.release_date ? (movie.release_date.split('-'))[0] : null,
+                    overview: movie.overview
+                });
+            });
+			res.render('searchResultView', { query: req.body.query, output });
         }
         else if (req.body.searchBy == 'byPerson') {
             apiurl = tmdb.searchPerson + query;
@@ -60,4 +96,4 @@ const searchItem = async (req, res) => {
     }
 }
 
-module.exports = { search, searchItem };
+module.exports = { getMovieDetails, search, searchItem };
