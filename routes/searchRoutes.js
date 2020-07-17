@@ -5,8 +5,10 @@ const searchController = require('../controllers/searchController');
 
 router.get('/', searchController.search);
 
-router.post('/results', searchController.searchItem);
+router.post('/results', searchController.searching);
 
-router.get('/:id', searchController.getMovieDetails);
+router.get('/films/:query/page/:page', searchController.searchFilm);
+
+router.get('/films/:query', searchController.searchFilm);
 
 module.exports = router;

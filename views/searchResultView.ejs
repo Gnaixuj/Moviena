@@ -9,18 +9,29 @@
         <h2>NO RESULTS</h2><hr>
         <p>There were no matches for your search term.</p>
     <% } else { %>
-        <h2>FOUND <%= output.total_results > 250 ? "AT LEAST 250" : output.total_results %> FILMS MATCHING "<%= query.toUpperCase() %>"</h2><hr>
+        <h2>FOUND <%= output.total_results > 250 ? "AT LEAST 250" : output.total_results %> <%= output.total_results == 1 ? "FILM" : "FILMS" %> MATCHING "<%= query.toUpperCase() %>"</h2><hr>
         <% output.data.forEach(result => { %>
-            <a href="/search/<%= result.id %>"><h3><%= result.title %></h3></a>
+            <a href="/film/<%= result.id %>"><h3><%= result.title %></h3></a>
             <p><%= result.year ? result.year : "" %></p>
             <img src="<%= result.img %>" alt="No Poster" height="120" width="80">
             <p><%= result.overview %></p>
         <% }) %>
-        <!-- <p>
-            <% for (let i = 1; i <= output.total_pages; i++) { %>
-                <a ></a>
+        <!-- DEVELOPMENT -->
+        <p>Page: 
+            <% if (output.page != 1) { %>
+                <a href="/search/films/<%= query %>/page/<%= output.page - 1 %>">Previous</a>
             <% } %>
-        </p> -->
+            <% for (let i = 1; i <= output.total_pages; i++) { %>
+                <% if (i == output.page) { %>
+                    <span> <%= i %> </span>
+                <% } else { %> 
+                    <a href="/results/<%= i %>"><%= i %></a>
+                <% } %>
+            <% } %>
+            <% if (output.page != output.total_pages) { %>
+                <a href="/search/films/<%= query %>/page/<%= output.page + 1 %>">Next</a>
+            <% } %>
+        </p>
     <% } %>
 
 </body>
