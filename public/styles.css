@@ -4,11 +4,11 @@
 } */
 
 .navbar {
-    background-color: #212121;
+    background-color: #14181C;
 }
 
 .row-content {
-    margin: 80px auto;
+    margin: 50px auto;
     padding: 50px 0px;
     /* border-bottom: 1px ridge; */
     min-height: 400px; 
@@ -19,8 +19,12 @@
     padding: 0px 0px; 
 }
 
-body {
+.search-view {
     padding: 50px 0px 0px 0px;
+}
+
+body {
+    /* padding: 50px 0px 0px 0px; */
     z-index: 0; 
-    background-color: #232F34;
+    background-color: #1D2329;
 }
