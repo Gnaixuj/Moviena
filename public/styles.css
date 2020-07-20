@@ -23,6 +23,52 @@
     padding: 50px 0px 0px 0px;
 }
 
+/* .backdrop-container {
+    box-shadow: 25px 25px 50px 0 #1D2329;
+} */
+
+.movie-details {
+    position: relative;
+}
+
+.movie-backdrop {
+    opacity: 0.4;
+    position: absolute;
+    max-width: 1263px;
+    max-height: 500px;
+    width: 100%;
+}
+
+.movie-text-overlay-backdrop {
+    position: absolute;
+    margin: 420px 30px 30px 30px;
+    padding: 30px;
+}
+
+.movie-text-overlay-no-backdrop {
+    position: absolute;
+    margin: 50px 30px 30px 30px;
+    padding: 30px;
+}
+
+/* .movie-title {
+    font-size: 2em;
+    font-weight: bolder;
+} */
+
+.badge {
+    font-size: 13px;
+    background-color: #242C34;
+}
+
+#displayCastMore {
+    display: none;
+}
+
+.altlang {
+    font-size: small;
+}
+
 body {
     /* padding: 50px 0px 0px 0px; */
     z-index: 0; 

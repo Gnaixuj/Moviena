@@ -1,19 +1,154 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles.css">
+
     <title>Moviena | <%= data.title %></title>
 </head>
 
 <body>
-    <% if (data) { %>
-        <% if (data.backdrop_path) { %>
-            <img src="<%= data.backdrop_path %>" height="700" width="1250">
+    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-transparent">
+        <div class="container">
+            <a class="navbar-brand ml-2" href="/search"><img src="/logo2.png" height="30"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#NavBar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="NavBar">
+                <ul class="navbar-nav ml-auto mt-2">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/search"> Home </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="movie-details">
+        <% if (data) { %>
+            <% if (data.backdrop_path) { %>
+                <img class="img-fluid movie-backdrop" src="<%= data.backdrop_path %>">
+                <div class="movie-text-overlay-backdrop">
+            <% } else { %>
+                <div class="movie-text-overlay-no-backdrop">
+            <% } %>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-3">
+                                <% if (data.poster_path) { %> 
+                                    <img class="img-thumbnail" src="<%= data.poster_path %>" height="345" width="230">
+                                <% } else { %>
+                                    <img class="img-thumbnail" src="/noPoster.png" height="345" width="230">
+                                <% } %>
+                            </div>
+                            <div class="col-5">
+                                <h1 class="movie-title text-white"><%= data.title %></h1>
+                                <p>
+                                    <span class="text-white"><%= data.release_date.split('-')[0] %></span>
+                                    <span class="text-white-50">&nbsp Directed by</span>
+                                    <% for (let i = 0; i < directors.length; i++) { %>
+                                        <span class="text-white"><%= directors[i] %><%= i == directors.length - 1 ? "" : "," %></span>
+                                    <% } %>
+                                </p>
+                                <p class="text-white-50"><%= data.tagline.toUpperCase() %></p>
+                                <p class="text-white-50"><%= data.overview %></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5 offset-3">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-success active" data-toggle="tab" href="#cast" role="tab">CAST</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-success" data-toggle="tab" href="#crew" role="tab">CREW</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-success" data-toggle="tab" href="#details" role="tab">DETAILS</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-success" data-toggle="tab" href="#genres" role="tab">GENRES</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="cast" role="tabpanel">
+                                        <br>
+                                        <% let length = cast.length <= 30 ? cast.length : 30 %>
+                                        <% for (let i = 0; i < length; i++) { %>
+                                            <a class="badge badge-secondary text-muted" href="#"><%= cast[i].name %></a>    
+                                        <% } %>
+                                        <% if (cast.length > 30) { %>
+                                            <span id="displayCastMore"> 
+                                                <% for (let i = 31; i < cast.length; i++) { %>
+                                                    <a class="badge badge-secondary text-muted" href="#"><%= cast[i].name %></a>
+                                                <% } %>
+                                            </span>
+                                            <a class="badge badge-secondary text-muted" id="castMore">Show More...</a> 
+                                        <% } %>
+                                    </div>
+                                    <div class="tab-pane fade" id="crew" role="tabpanel">
+                                        <br>
+                                        <p>
+                                            <span class="text-muted">TO BE COMPLETED</span>
+                                        </p>
+                                    </div>
+                                    <div class="tab-pane fade" id="details" role="tabpanel">
+                                        <br>
+                                        <p>
+                                            <span class="text-muted">STUDIOS</span>
+                                            <% data.production_companies.forEach(company => { %>
+                                                <a class="badge badge-secondary text-muted"><%= company.name %></a>
+                                            <% }) %>
+                                        </p>
+                                        <p>
+                                            <span class="text-muted">LANGUAGES</span>
+                                            <% data.spoken_languages.forEach(lang => { %>
+                                                <a class="badge badge-secondary text-muted"><%= lang.name %></a>
+                                            <% }) %>
+                                        </p>
+                                        <p>
+                                            <span class="text-muted">ALTERNATIVE TITLES</span>
+                                            <% for (let i = 0; i < altlang.titles.length; i++) { %>
+                                                <span class="altlang text-muted"><%= altlang.titles[i].title %><%= i == altlang.titles.length - 1 ? "" : "," %></span>
+                                            <% } %>
+                                        </p>
+                                    </div>
+                                    <div class="tab-pane fade" id="genres" role="tabpanel">
+                                        <br>
+                                        <% data.genres.forEach(genre => { %>
+                                            <a class="badge badge-secondary text-muted" href="#"><%= genre.name %></a>
+                                        <% }) %> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         <% } %>
-        <h1><%= data.title %></h1>
-        <p><%= data.release_date %></p>
-        <p><%= data.tagline.toUpperCase() %></p>
-        <p><%= data.overview %></p>
-    <% } %>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script>
+        const castMoreBtn = document.getElementById("castMore");
+        const castMoreDisplay = document.getElementById("displayCastMore");
+        castMoreBtn.addEventListener("click", (event) => {
+            if (castMoreBtn.innerHTML == "Show More...") {
+                castMoreDisplay.style.display = "inline";
+                castMoreBtn.innerHTML = "Show Less...";
+            }
+            else {
+                castMoreDisplay.style.display = "none";
+                castMoreBtn.innerHTML = "Show More...";
+            }
+        })
+    </script>
 </body>
 
 </html>
