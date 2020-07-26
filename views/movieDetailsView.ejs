@@ -7,6 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="/styles.css">
 
     <title>Moviena | <%= data.title %></title>
@@ -51,14 +52,24 @@
                                 <p>
                                     <span class="text-white"><%= data.release_date.split('-')[0] %></span>
                                     <span class="text-white-50">&nbsp Directed by</span>
-                                    <% for (let i = 0; i < directors.length; i++) { %>
-                                        <span class="text-white"><%= directors[i] %><%= i == directors.length - 1 ? "" : "," %></span>
+                                    <% for (let i = 0; i < crew.directors.length; i++) { %>
+                                        <a class="text-white" href="/people/<%= crew.directors[i].id %>"><%= crew.directors[i].name %><%= i == crew.directors.length - 1 ? "" : "," %></a>
                                     <% } %>
                                 </p>
                                 <p class="text-white-50"><%= data.tagline.toUpperCase() %></p>
                                 <p class="text-white-50"><%= data.overview %></p>
                             </div>
+                            <div class="col-4">
+                                <div class="card card-movie text-center text-white-50 border-0">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><%= data.status %> <%= data.release_date %></li>
+                                        <li class="list-group-item"><%= data.runtime %> mins</li>
+                                        <li class="list-group-item"><%= data.vote_average %> / 10</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="row">
                             <div class="col-5 offset-3">
                                 <ul class="nav nav-tabs" role="tablist">
@@ -80,12 +91,12 @@
                                         <br>
                                         <% let length = cast.length <= 30 ? cast.length : 30 %>
                                         <% for (let i = 0; i < length; i++) { %>
-                                            <a class="badge badge-secondary text-muted" href="#"><%= cast[i].name %></a>    
+                                            <a class="badge badge-secondary text-muted" href="/people/<%= cast[i].id %>"><%= cast[i].name %></a>    
                                         <% } %>
                                         <% if (cast.length > 30) { %>
                                             <span id="displayCastMore"> 
                                                 <% for (let i = 31; i < cast.length; i++) { %>
-                                                    <a class="badge badge-secondary text-muted" href="#"><%= cast[i].name %></a>
+                                                    <a class="badge badge-secondary text-muted" href="/people/<%= cast[i].id %>"><%= cast[i].name %></a>
                                                 <% } %>
                                             </span>
                                             <a class="badge badge-secondary text-muted" id="castMore">Show More...</a> 
@@ -94,7 +105,82 @@
                                     <div class="tab-pane fade" id="crew" role="tabpanel">
                                         <br>
                                         <p>
-                                            <span class="text-muted">TO BE COMPLETED</span>
+                                            <span class="text-muted"><%= crew.directors.length > 1 ? "DIRECTORS" : "DIRECTOR" %></span>
+                                            <% crew.directors.forEach(director => { %>
+                                                <a class="badge badge-secondary text-muted" href="/people/<%= director.id %>"><%= director.name %></a>
+                                            <% }) %>
+                                        </p>
+                                        <p>
+                                            <span class="text-muted"><%= crew.producers.length > 1 ? "PRODUCERS" : "PRODUCER" %></span>
+                                            <% crew.producers.forEach(producer => { %>
+                                                <a class="badge badge-secondary text-muted" href="/people/<%= producer.id %>"><%= producer.name %></a>
+                                            <% }) %>
+                                        </p>
+                                        <p>
+                                            <span class="text-muted"><%= crew.writers.length > 1 ? "WRITERS" : "WRITER" %></span>
+                                            <% crew.writers.forEach(writer => { %>
+                                                <a class="badge badge-secondary text-muted" href="/people/<%= writer.id %>"><%= writer.name %></a>
+                                            <% }) %>
+                                        </p>
+                                        <p>
+                                            <span class="text-muted"><%= crew.editors.length > 1 ? "EDITORS" : "EDITOR" %></span>
+                                            <% crew.editors.forEach(editor => { %>
+                                                <a class="badge badge-secondary text-muted" href="/people/<%= editor.id %>"><%= editor.name %></a>
+                                            <% }) %>
+                                        </p>
+                                        <p>
+                                            <span class="text-muted">CINEMATOGRAPHY</span>
+                                            <% crew.cinematography.forEach(cinemato => { %>
+                                                <a class="badge badge-secondary text-muted" href="/people/<%= cinemato.id %>"><%= cinemato.name %></a>
+                                            <% }) %>
+                                        </p>
+                                        <p>
+                                            <% if (crew.productionDesign.length > 0) { %>
+                                                <span class="text-muted">PRODUCTION DESIGN</span>
+                                                <% crew.productionDesign.forEach(pd => { %>
+                                                    <a class="badge badge-secondary text-muted" href="/people/<%= pd.id %>"><%= pd.name %></a>
+                                                <% }) %>
+                                            <% } %>
+                                        </p>
+                                        <p>
+                                            <% if (crew.artDirection.length > 0) { %>
+                                                <span class="text-muted">ART DIRECTION</span>
+                                                <% crew.artDirection.forEach(ad => { %>
+                                                    <a class="badge badge-secondary text-muted" href="/people/<%= ad.id %>"><%= ad.name %></a>
+                                                <% }) %>
+                                            <% } %>
+                                        </p>
+                                        <p>
+                                            <% if (crew.visualEffects.length > 0) { %>
+                                                <span class="text-muted">VISUAL EFFECTS</span>
+                                                <% crew.visualEffects.forEach(ve => { %>
+                                                    <a class="badge badge-secondary text-muted" href="/people/<%= ve.id %>"><%= ve.name %></a>
+                                                <% }) %>
+                                            <% } %>
+                                        </p>
+                                        <p>
+                                            <% if (crew.composers.length > 0) { %>
+                                                <span class="text-muted"><%= crew.composers.length > 1 ? "COMPOSERS" : "COMPOSER" %></span>
+                                                <% crew.composers.forEach(composer => { %>
+                                                    <a class="badge badge-secondary text-muted" href="/people/<%= composer.id %>"><%= composer.name %></a>
+                                                <% }) %>
+                                            <% } %>
+                                        </p>
+                                        <p>
+                                            <% if (crew.sound.length > 0) { %>
+                                                <span class="text-muted">SOUND</span>
+                                                <% crew.sound.forEach(s => { %>
+                                                    <a class="badge badge-secondary text-muted" href="/people/<%= s.id %>"><%= s.name %></a>
+                                                <% }) %>
+                                            <% } %>
+                                        </p>
+                                        <p>
+                                            <% if (crew.costumeDesignMakeUp.length > 0) { %>
+                                                <span class="text-muted">COSTUMES & MAKE-UP</span>
+                                                <% crew.costumeDesignMakeUp.forEach(cdmu => { %>
+                                                    <a class="badge badge-secondary text-muted" href="/people/<%= cdmu.id %>"><%= cdmu.name %></a>
+                                                <% }) %>
+                                            <% } %>
                                         </p>
                                     </div>
                                     <div class="tab-pane fade" id="details" role="tabpanel">
@@ -128,6 +214,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
         <% } %>
     </div>

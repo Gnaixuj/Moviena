@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const searchRoutes = require('./routes/searchRoutes');
 const filmRoutes = require('./routes/filmRoutes');
+const peopleRoutes = require('./routes/peopleRoutes');
 
 app.listen(port, () => {
     console.log('Server Listening on Port ' + port);
@@ -19,3 +20,6 @@ app.use('/search', searchRoutes);
 
 // Route 2
 app.use('/film', filmRoutes);
+
+// Route 3
+app.use('/people', peopleRoutes);
