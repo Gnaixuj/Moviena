@@ -15,9 +15,10 @@ const getPeopleDetails = async (req, res) => {
             result.data.profile_path = tmdb.baseimgurl() + result.data.profile_path;
         }
 
-        var castSet = new Set();
-        var crewSet = new Set();
-        var tempObj = {};
+        var castId = new Set();
+        var crewId = new Set();
+        var castList = [];
+        var crewList = [];
 
         options.url = apiurl2;
         var result2 = await axios(options);
@@ -25,22 +26,22 @@ const getPeopleDetails = async (req, res) => {
             if (cast.poster_path) {
                 cast.poster_path = tmdb.baseimgurl() + cast.poster_path;
             }
-            // tempObj.id = cast.id;
-            // tempObj.title = cast.title;
-            // tempObj.poster_path = cast.poster_path;
-            // castSet.add(tempObj);
+            if (!castId.has(cast.id)) {
+                castId.add(cast.id);
+                castList.push(cast);
+            }
         })
         result2.data.crew.forEach(crew => {
             if (crew.poster_path) {
                 crew.poster_path = tmdb.baseimgurl() + crew.poster_path;
             }
-            // tempObj.id = crew.id;
-            // tempObj.title = crew.title;
-            // tempObj.poster_path = crew.poster_path;
-            // crewSet.add(tempObj);
+            if (!crewId.has(crew.id)) {
+                crewId.add(crew.id);
+                crewList.push(crew);
+            }
         })
-        // { cast: [...castSet], crew: [...crewSet] } }
-        res.render('peopleDetailsView', { info: result.data, credits: result2.data });
+        
+        res.render('peopleDetailsView', { info: result.data, credits: { cast: castList, crew: crewList } });
     } catch (err) {
         console.error(err);
     }
