@@ -19,7 +19,9 @@ const getMovieDetails = async (req, res) => {
         if (result.data.poster_path) {
             result.data.poster_path = tmdb.baseimgurl() + result.data.poster_path;
         }
-        result.data.tagline = result.data.tagline.slice(0, result.data.tagline.length - 1);
+        if (result.data.tagline.charAt(result.data.tagline.length - 1) == ".") {
+            result.data.tagline = result.data.tagline.slice(0, result.data.tagline.length - 1);
+        }
         result.data.spoken_languages.forEach(lang => {
             lang.name = ISO6391.getName(lang.iso_639_1);
         });

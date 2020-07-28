@@ -11,4 +11,6 @@ router.get('/films/:query/page/:page', searchController.searchFilm);
 
 router.get('/films/:query', searchController.searchFilm);
 
+router.get('/people/:query', searchController.searchPeople);
+
 module.exports = router;
