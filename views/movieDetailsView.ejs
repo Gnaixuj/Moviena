@@ -105,34 +105,44 @@
                                     <div class="tab-pane fade" id="crew" role="tabpanel">
                                         <br>
                                         <p>
-                                            <span class="text-muted"><%= crew.directors.length > 1 ? "DIRECTORS" : "DIRECTOR" %></span>
-                                            <% crew.directors.forEach(director => { %>
-                                                <a class="badge badge-secondary text-muted" href="/people/<%= director.id %>"><%= director.name %></a>
-                                            <% }) %>
+                                            <% if (crew.directors.length > 0) { %>
+                                                <span class="text-muted"><%= crew.directors.length > 1 ? "DIRECTORS" : "DIRECTOR" %></span>
+                                                <% crew.directors.forEach(director => { %>
+                                                    <a class="badge badge-secondary text-muted" href="/people/<%= director.id %>"><%= director.name %></a>
+                                                <% }) %>
+                                            <% } %>
                                         </p>
                                         <p>
-                                            <span class="text-muted"><%= crew.producers.length > 1 ? "PRODUCERS" : "PRODUCER" %></span>
-                                            <% crew.producers.forEach(producer => { %>
-                                                <a class="badge badge-secondary text-muted" href="/people/<%= producer.id %>"><%= producer.name %></a>
-                                            <% }) %>
+                                            <% if (crew.producers.length > 0) { %>
+                                                <span class="text-muted"><%= crew.producers.length > 1 ? "PRODUCERS" : "PRODUCER" %></span>
+                                                <% crew.producers.forEach(producer => { %>
+                                                    <a class="badge badge-secondary text-muted" href="/people/<%= producer.id %>"><%= producer.name %></a>
+                                                <% }) %>
+                                            <% } %>
                                         </p>
                                         <p>
-                                            <span class="text-muted"><%= crew.writers.length > 1 ? "WRITERS" : "WRITER" %></span>
-                                            <% crew.writers.forEach(writer => { %>
-                                                <a class="badge badge-secondary text-muted" href="/people/<%= writer.id %>"><%= writer.name %></a>
-                                            <% }) %>
+                                            <% if (crew.writers.length > 0) { %>
+                                                <span class="text-muted"><%= crew.writers.length > 1 ? "WRITERS" : "WRITER" %></span>
+                                                <% crew.writers.forEach(writer => { %>
+                                                    <a class="badge badge-secondary text-muted" href="/people/<%= writer.id %>"><%= writer.name %></a>
+                                                <% }) %>
+                                            <% } %>
                                         </p>
                                         <p>
-                                            <span class="text-muted"><%= crew.editors.length > 1 ? "EDITORS" : "EDITOR" %></span>
-                                            <% crew.editors.forEach(editor => { %>
-                                                <a class="badge badge-secondary text-muted" href="/people/<%= editor.id %>"><%= editor.name %></a>
-                                            <% }) %>
+                                            <% if (crew.editors.length > 0) { %>
+                                                <span class="text-muted"><%= crew.editors.length > 1 ? "EDITORS" : "EDITOR" %></span>
+                                                <% crew.editors.forEach(editor => { %>
+                                                    <a class="badge badge-secondary text-muted" href="/people/<%= editor.id %>"><%= editor.name %></a>
+                                                <% }) %>
+                                            <% } %>
                                         </p>
                                         <p>
-                                            <span class="text-muted">CINEMATOGRAPHY</span>
-                                            <% crew.cinematography.forEach(cinemato => { %>
-                                                <a class="badge badge-secondary text-muted" href="/people/<%= cinemato.id %>"><%= cinemato.name %></a>
-                                            <% }) %>
+                                            <% if (crew.cinematography.length > 0) { %>
+                                                <span class="text-muted">CINEMATOGRAPHY</span>
+                                                <% crew.cinematography.forEach(cinemato => { %>
+                                                    <a class="badge badge-secondary text-muted" href="/people/<%= cinemato.id %>"><%= cinemato.name %></a>
+                                                <% }) %>
+                                            <% } %>
                                         </p>
                                         <p>
                                             <% if (crew.productionDesign.length > 0) { %>
@@ -186,21 +196,27 @@
                                     <div class="tab-pane fade" id="details" role="tabpanel">
                                         <br>
                                         <p>
-                                            <span class="text-muted">STUDIOS</span>
-                                            <% data.production_companies.forEach(company => { %>
-                                                <a class="badge badge-secondary text-muted"><%= company.name %></a>
-                                            <% }) %>
+                                            <% if (data.production_companies.length > 0) { %>
+                                                <span class="text-muted">STUDIOS</span>
+                                                <% data.production_companies.forEach(company => { %>
+                                                    <a class="badge badge-secondary text-muted"><%= company.name %></a>
+                                                <% }) %>
+                                            <% } %>
                                         </p>
                                         <p>
-                                            <span class="text-muted">LANGUAGES</span>
-                                            <% data.spoken_languages.forEach(lang => { %>
-                                                <a class="badge badge-secondary text-muted"><%= lang.name %></a>
-                                            <% }) %>
+                                            <% if (data.spoken_languages.length > 0) { %>
+                                                <span class="text-muted">LANGUAGES</span>
+                                                <% data.spoken_languages.forEach(lang => { %>
+                                                    <a class="badge badge-secondary text-muted"><%= lang.name %></a>
+                                                <% }) %>
+                                            <% } %>
                                         </p>
                                         <p>
-                                            <span class="text-muted">ALTERNATIVE TITLES</span>
-                                            <% for (let i = 0; i < altlang.titles.length; i++) { %>
-                                                <span class="altlang text-muted"><%= altlang.titles[i].title %><%= i == altlang.titles.length - 1 ? "" : "," %></span>
+                                            <% if (altlang.titles.length > 0) { %>
+                                                <span class="text-muted">ALTERNATIVE TITLES</span>
+                                                <% for (let i = 0; i < altlang.titles.length; i++) { %>
+                                                    <span class="altlang text-muted"><%= altlang.titles[i].title %><%= i == altlang.titles.length - 1 ? "" : "," %></span>
+                                                <% } %>
                                             <% } %>
                                         </p>
                                     </div>

@@ -32,15 +32,24 @@
     <div class="container">
         <div class="row row-content">
             <% if (output.total_results < 1) { %>
-                <p class="text-muted">NO RESULTS</p><hr>
-                <p class="text-muted">There were no matches for your search term.</p>
+                <div class="col-12">
+                    <p class="border-bottom text-muted">NO RESULTS</p><hr>
+                </div>
+                <div class="col-12">
+                    <p class="text-muted">There were no matches for your search term.</p>
+                </div>
             <% } else if (output.data[0].title) { %>
-                <p class="border-bottom text-muted">FOUND <%= output.total_results > 250 ? "AT LEAST 250" : output.total_results %> <%= output.total_results == 1 ? "FILM" : "FILMS" %> MATCHING "<%= query.toUpperCase() %>"</p>
+                <div class="col-12">
+                    <p class="text-muted">FOUND <%= output.total_results > 250 ? "AT LEAST 250" : output.total_results %> <%= output.total_results == 1 ? "FILM" : "FILMS" %> MATCHING "<%= query.toUpperCase() %>"</p>
+                </div>
             <% } else if (output.data[0].name) { %>
-                <p class="border-bottom text-muted">FOUND <%= output.total_results > 250 ? "AT LEAST 250" : output.total_results %> <%= output.total_results == 1 ? "RESULT" : "RESULTS" %> MATCHING "<%= query.toUpperCase() %>"</p>
+                <div class="col-12">
+                    <p class="text-muted">FOUND <%= output.total_results > 250 ? "AT LEAST 250" : output.total_results %> <%= output.total_results == 1 ? "RESULT" : "RESULTS" %> MATCHING "<%= query.toUpperCase() %>"</p>
+                </div>
             <% } %>
         </div>
         <div class="row">
+            <div class="col-12">
             <ul class="list-unstyled">
                 <% output.data.forEach(result => { %>
                     <li class="media border-bottom p-3">
@@ -60,7 +69,7 @@
                                 <a href="/people/<%= result.id %>">
                                     <h5 class="text-light mt-0 mb-1"><%= result.name %></h5>
                                 </a>
-                                <% if (result.movies) { %>
+                                <% if (result.movies.length > 0) { %>
                                     <span class="text-muted">KNOWN FOR</span>
                                     <p>
                                     <% result.movies.forEach(film => { %>
@@ -73,26 +82,30 @@
                     </li>
                 <% }) %>
             </ul>
+            </div>
         </div>
     </div>
 
-    <nav>
-        <ul class="pagination justify-content-center"> 
-            <li class="page-item <%= output.page == 1 ? "disabled" : "" %>">
-                <a class="page-link" href="/search/films/<%= query %>/page/<%= output.page - 1 %>">Previous</a>
-            </li>
-            <% let begin = (output.page % 10 == 0) ? output.page - 9 : output.page - (output.page % 10) + 1; 
-            let end = (begin + 10 > output.total_pages) ? output.total_pages : begin + 9 %>
-            <% for (let i = begin; i <= end; i++) { %>
-                <li class="page-item <%= i == output.page ? "disabled" : "" %>"> 
-                    <a class="page-link" href="/search/films/<%= query %>/page/<%= i %>"><%= i %></a>
+    <% if (output.total_results != 0) { %>
+        <br>
+        <nav>
+            <ul class="pagination justify-content-center"> 
+                <li class="page-item <%= output.page == 1 ? "disabled" : "" %>">
+                    <a class="page-link" href="/search/films/<%= query %>/page/<%= output.page - 1 %>">Previous</a>
                 </li>
-            <% } %>
-            <li class="page-item <%= output.page == output.total_pages ? "disabled" : "" %>">
-                <a class="page-link" href="/search/films/<%= query %>/page/<%= output.page + 1 %>">Next</a>
-            </li>
-        </ul>
-    </nav>
+                <% let begin = (output.page % 10 == 0) ? output.page - 9 : output.page - (output.page % 10) + 1; 
+                let end = (begin + 10 > output.total_pages) ? output.total_pages : begin + 9 %>
+                <% for (let i = begin; i <= end; i++) { %>
+                    <li class="page-item <%= i == output.page ? "disabled" : "" %>"> 
+                        <a class="page-link" href="/search/films/<%= query %>/page/<%= i %>"><%= i %></a>
+                    </li>
+                <% } %>
+                <li class="page-item <%= output.page == output.total_pages ? "disabled" : "" %>">
+                    <a class="page-link" href="/search/films/<%= query %>/page/<%= output.page + 1 %>">Next</a>
+                </li>
+            </ul>
+        </nav>
+    <% } %>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
